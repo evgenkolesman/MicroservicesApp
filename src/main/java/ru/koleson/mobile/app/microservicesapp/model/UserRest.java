@@ -1,4 +1,4 @@
-package ru.koleson.mobile.app.microservicesapp.response;
+package ru.koleson.mobile.app.microservicesapp.model;
 
 
 import lombok.AllArgsConstructor;
@@ -18,5 +18,15 @@ public class UserRest {
 
     private String userId;
 
+//    private String password;
 
+
+    public static UserRest of(UserDetailRequestModel user) {
+        UserRest userRest = new UserRest();
+        userRest.setFirstName(user.getFirstName());
+        userRest.setLastName(user.getLastName());
+        userRest.setEmail(user.getEmail());
+//        userRest.setPassword(user.getPassword());
+        return userRest;
+    }
 }
