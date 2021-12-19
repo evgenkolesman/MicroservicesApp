@@ -15,13 +15,29 @@ import java.util.Date;
 public class AppExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = {Exception.class})
-    public ResponseEntity<Object> handleAnyException (Exception e, WebRequest req) {
+    public ResponseEntity<Object> handleAnyException(Exception e, WebRequest req) {
 
         String exceptionMessageDescription = e.getLocalizedMessage();
 
-        if(exceptionMessageDescription == null) exceptionMessageDescription = e.toString();
+        if (exceptionMessageDescription == null) {
+            exceptionMessageDescription = e.toString();
+        }
         ExceptionMessage ex = new ExceptionMessage(new Date(), exceptionMessageDescription);
-        return  new ResponseEntity<>(
+        return new ResponseEntity<>(
                 ex, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(value = {NullPointerException.class, UserServiceException.class})
+    public ResponseEntity<Object> handleSpecificExceptionException(Exception e, WebRequest req) {
+
+        String exceptionMessageDescription = e.getLocalizedMessage();
+
+        if (exceptionMessageDescription == null) {
+            exceptionMessageDescription = e.toString();
+        }
+        ExceptionMessage ex = new ExceptionMessage(new Date(), exceptionMessageDescription);
+        return new ResponseEntity<>(
+                ex, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }
